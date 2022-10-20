@@ -8,10 +8,10 @@
 import SwiftUI
 
 struct ContentView: View {
-    @StateObject private var viewModel = ContentViewModel()
+    @EnvironmentObject var viewModel: ContentViewModel
     @State private var isPresentPopup = false
 
-    func BibleListView() -> ScrollView<some View> {
+    func VerseListView() -> ScrollView<some View> {
         return ScrollView {
             LazyVStack(alignment: .leading, spacing: 10) {
                 ForEach(Array(zip(0..<viewModel.dataSource.count, viewModel.dataSource)), id: \.0) { index, item in
@@ -46,7 +46,7 @@ struct ContentView: View {
                 Text("Psalm 23")
                     .fontWeight(.bold)
                 
-                BibleListView()
+                VerseListView()
             }
             
             if isPresentPopup {
