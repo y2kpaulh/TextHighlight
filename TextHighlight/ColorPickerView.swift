@@ -59,7 +59,7 @@ struct ColorPickerView: View {
                 
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(Array(viewModel.colorItems.enumerated()), id: \.offset) { colorIndex, colorItem in
+                        ForEach(Array(viewModel.colorList.enumerated()), id: \.offset) { colorIndex, colorItem in
                             Button {
                                 print("tap index: \(colorIndex), item: \(colorItem) btn")
                                 
@@ -79,6 +79,7 @@ struct ColorPickerView: View {
 
                             }
                             .overlay {
+                                if viewModel.colorList[colorIndex].selected
                                 Image(systemName: "checkmark")
                                     .foregroundColor(.white)
                             }

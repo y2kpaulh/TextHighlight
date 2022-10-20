@@ -13,3 +13,8 @@ struct VerseRow: Hashable, Equatable {
     var selected: Bool
     var color: Color
 }
+
+struct ColorItem: Hashable, Equatable {
+    var color: Color
+    var selected: Bool
+}

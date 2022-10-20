@@ -13,12 +13,18 @@ class ContentViewModel: ObservableObject {
     var verseList: [String]
     
     @Published var dataSource: [VerseRow] = []
+    @Published var colorList: [ColorItem] = []
     let colorItems: [Color] = [.orange, .cyan, .mint]
 
     init(verseList: [String]) {
         self.verseList = verseList
+        
         for item in verseList {
             self.dataSource.append(VerseRow(text: item, selected: false, color: .clear))
+        }
+        
+        for item in colorItems {
+            self.colorList.append(ColorItem(color: item, selected: false))
         }
     }
     
