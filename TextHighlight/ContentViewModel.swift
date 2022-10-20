@@ -23,17 +23,13 @@ class ContentViewModel: ObservableObject {
     let colorItems: [Color] = [.red, .gray, .green, .yellow, .blue, .brown, .orange, .cyan, .mint]
 
     init() {
-//        ForEach(Array(zip(0..<bibleChapter.count, bibleChapter)), id: \.0) { index, item in
-//            self.dataSource.append(VerseRow(text: item, selected: false, color: .black))
-//        }
-
         for item in bibleChapter {
             self.dataSource.append(VerseRow(text: item, selected: false, color: .black))
         }
     }
     
     func resetSelectedItem() {
-        for (index,item) in dataSource.enumerated() {
+        for index in dataSource.indices {
             dataSource[index].selected = false
         }
     }
