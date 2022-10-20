@@ -59,13 +59,21 @@ struct ColorPickerView: View {
                 
                 ScrollView(.horizontal) {
                     HStack {
-                        ForEach(Array(viewModel.colorItems.enumerated()), id: \.offset) { index, item in
+                        ForEach(Array(viewModel.colorItems.enumerated()), id: \.offset) { colorIndex, colorItem in
                             Button {
-                                print("tap index: \(index), item: \(item) btn")
+                                print("tap index: \(colorIndex), item: \(colorItem) btn")
+                                
+                                for (index, item) in viewModel.dataSource.enumerated() {
+                                    if item.selected {
+                                        viewModel.dataSource[index].color = viewModel.colorItems[colorIndex]
+                                    }
+                                }
+                                
+                                viewModel.resetSelectedItem()
                             } label: {
                                 Rectangle()
                                     .frame(width: 30, height: 30)
-                                    .foregroundColor(viewModel.colorItems[index])
+                                    .foregroundColor(viewModel.colorItems[colorIndex])
                                     .cornerRadius(30/2)
                                     //.shadow(radius: 2)
 

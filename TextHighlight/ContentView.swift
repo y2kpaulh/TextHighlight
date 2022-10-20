@@ -17,12 +17,13 @@ struct ContentView: View {
                 ForEach(Array(zip(0..<viewModel.dataSource.count, viewModel.dataSource)), id: \.0) { index, item in
                     VStack(alignment: .leading) {
                         Text(item.text)
+                            .background(viewModel.dataSource[index].color)
                             .multilineTextAlignment(.leading)
-                            .underline(viewModel.dataSource[index].selected, pattern: .dashDotDot, color: .white)
+                            .underline(viewModel.dataSource[index].selected, pattern: .dashDotDot, color: .black)
                             .lineSpacing(2)
                     }
                     .onTapGesture {
-                        print("index: \(index), item: \(item)")
+                        //print("index: \(index), item: \(item)")
                         viewModel.dataSource[index].selected = !viewModel.dataSource[index].selected
 
                         if !isPresentPopup {
