@@ -85,6 +85,9 @@ struct ColorPickerView: View {
             .cornerRadius(24)
             .shadow(radius: 4)
         }
+        .onDisappear(){
+            viewModel.resetSelectedItem()
+        }
     }
 }
 

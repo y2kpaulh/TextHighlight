@@ -16,23 +16,18 @@ struct ContentView: View {
             LazyVStack(alignment: .leading, spacing: 10) {
                 ForEach(Array(zip(0..<viewModel.dataSource.count, viewModel.dataSource)), id: \.0) { index, item in
                     VStack(alignment: .leading) {
-                        Text(item)
+                        Text(item.text)
                             .multilineTextAlignment(.leading)
-                            .underline(true, pattern: .dashDotDot, color: .black)
+                            .underline(viewModel.dataSource[index].selected, pattern: .dashDotDot, color: .white)
                             .lineSpacing(2)
                     }
                     .onTapGesture {
                         print("index: \(index), item: \(item)")
+                        viewModel.dataSource[index].selected = !viewModel.dataSource[index].selected
+
                         if !isPresentPopup {
-                            isPresentPopup = true
+                            isPresentPopup.toggle()
                         }
-//                        viewModel.selectedItems[index] = !viewModel.selectedItems[index]
-//
-//                        print(viewModel.selectedItems)
-//
-//                        if !isPresentPopup {
-//                            isPresentPopup.toggle()
-//                        }
                     }
                 }
             }
@@ -62,6 +57,13 @@ struct ContentView: View {
                 }
             }
         }
+        .onChange(of: viewModel.dataSource, perform: { newValue in
+           // print(newValue)
+            if viewModel.dataSource.filter({ $0.selected == true }).count == 0 {
+                viewModel.resetSelectedItem()
+                isPresentPopup = false
+            }
+        })
     }
 }
 

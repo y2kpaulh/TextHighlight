@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2E51F5912901212D00E5754F /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E51F5902901212D00E5754F /* Model.swift */; };
 		2E7D99C12900DCBB009937F9 /* ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7D99C02900DCBA009937F9 /* ContentViewModel.swift */; };
 		2E7D99C32900DD7C009937F9 /* ColorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7D99C22900DD7B009937F9 /* ColorPickerView.swift */; };
 		2EDEC2E62900DB53004DBCE2 /* TextHighlightApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EDEC2E52900DB53004DBCE2 /* TextHighlightApp.swift */; };
@@ -16,6 +17,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		2E51F5902901212D00E5754F /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2E7D99C02900DCBA009937F9 /* ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewModel.swift; sourceTree = "<group>"; };
 		2E7D99C22900DD7B009937F9 /* ColorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPickerView.swift; sourceTree = "<group>"; };
 		2EDEC2E22900DB53004DBCE2 /* TextHighlight.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextHighlight.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -61,6 +63,7 @@
 				2E7D99C22900DD7B009937F9 /* ColorPickerView.swift */,
 				2EDEC2E92900DB55004DBCE2 /* Assets.xcassets */,
 				2EDEC2EB2900DB55004DBCE2 /* Preview Content */,
+				2E51F5902901212D00E5754F /* Model.swift */,
 			);
 			path = TextHighlight;
 			sourceTree = "<group>";
@@ -143,6 +146,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2E51F5912901212D00E5754F /* Model.swift in Sources */,
 				2E7D99C32900DD7C009937F9 /* ColorPickerView.swift in Sources */,
 				2EDEC2E82900DB53004DBCE2 /* ContentView.swift in Sources */,
 				2EDEC2E62900DB53004DBCE2 /* TextHighlightApp.swift in Sources */,
