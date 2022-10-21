@@ -10,8 +10,9 @@ import SwiftUI
 struct ColorPickerView: View {
     @EnvironmentObject var viewModel: ContentViewModel
     @Binding var isPresent: Bool
-    var isDataExist: Bool = false
-
+    @Binding var selectedIndex: Int
+    @State private var selectedColor: Color = .clear
+    
     var body: some View {
         HStack(spacing: 20) {
             HStack {
@@ -40,22 +41,20 @@ struct ColorPickerView: View {
                 Spacer()
                     .frame(width: 20)
                 
-                if isDataExist {
-                    Button {
-                        print("tap trash btn")
-
-                    } label: {
-                        Rectangle()
-                            .frame(width: 30, height: 30)
-                            .foregroundColor(.gray)
-                            .cornerRadius(30/2)
-                            .overlay {
-                                Image(systemName: "trash")
-                                    .foregroundColor(.white)
-                            }
-                           // .shadow(radius: 2)
-                    }
+                Button {
+                    print("tap trash btn")
+                    
+                } label: {
+                    Circle()
+                        .frame(width: 30, height: 30)
+                        .foregroundColor(.gray)
+                        .overlay {
+                            Image(systemName: "doc.on.doc")
+                                .foregroundColor(.white)
+                        }
+                    // .shadow(radius: 2)
                 }
+
                 
                 ScrollView(.horizontal) {
                     HStack {
@@ -66,6 +65,11 @@ struct ColorPickerView: View {
                                 for (index, item) in viewModel.dataSource.enumerated() {
                                     if item.selected {
                                         viewModel.dataSource[index].color = viewModel.colorItems[colorIndex]
+                                        
+                                        if selectedColor == viewModel.colorItems[colorIndex] {
+                                            viewModel.dataSource[index].color = .clear
+                                        }
+
                                     }
                                 }
                                 
@@ -76,12 +80,12 @@ struct ColorPickerView: View {
                                     .foregroundColor(viewModel.colorItems[colorIndex])
                                     .cornerRadius(30/2)
                                     //.shadow(radius: 2)
-
                             }
                             .overlay {
-                                if viewModel.colorList[colorIndex].selected
-                                Image(systemName: "checkmark")
-                                    .foregroundColor(.white)
+                                if selectedColor == viewModel.colorItems[colorIndex] {
+                                    Image(systemName: "checkmark")
+                                        .foregroundColor(.white)
+                                }
                             }
                         }
                     }
@@ -94,6 +98,11 @@ struct ColorPickerView: View {
             .cornerRadius(24)
             .shadow(radius: 4)
         }
+        .onAppear() {
+            if viewModel.dataSource[selectedIndex].color != .clear {
+                selectedColor = viewModel.dataSource[selectedIndex].color
+            }
+        }
         .onDisappear(){
             viewModel.resetSelectedItem()
         }
@@ -102,7 +111,7 @@ struct ColorPickerView: View {
 
 struct ColorPickerView_Previews: PreviewProvider {
     static var previews: some View {
-        ColorPickerView(isPresent: .constant(true))
+        ColorPickerView(isPresent: .constant(true), selectedIndex: .constant(0))
             .environmentObject(ContentViewModel(verseList: [
                 "The Lord is my shepherd, I lack nothing.",
                 "He makes me lie down in green pastures,he leads me beside quiet waters,",

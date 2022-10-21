@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @EnvironmentObject var viewModel: ContentViewModel
     @State private var isPresentPopup = false
+    @State var tapIndex: Int = 0
 
     func VerseListView() -> ScrollView<some View> {
         return ScrollView {
@@ -19,11 +20,13 @@ struct ContentView: View {
                         Text(item.text)
                             .background(viewModel.dataSource[index].color)
                             .multilineTextAlignment(.leading)
-                            .underline(viewModel.dataSource[index].selected, pattern: .dashDotDot, color: .black)
+                            .underline(viewModel.dataSource[index].selected, pattern: .dot, color: viewModel.dataSource[index].selected && viewModel.dataSource[index].color != .clear ? .red : .black)
                             .lineSpacing(2)
                     }
                     .onTapGesture {
                         //print("index: \(index), item: \(item)")
+                        tapIndex = index
+                        
                         viewModel.dataSource[index].selected = !viewModel.dataSource[index].selected
 
                         if !isPresentPopup {
@@ -52,7 +55,7 @@ struct ContentView: View {
             
             if isPresentPopup {
                 VStack {
-                    ColorPickerView(isPresent: $isPresentPopup)
+                    ColorPickerView(isPresent: $isPresentPopup, selectedIndex: $tapIndex)
                         .environmentObject(viewModel)
                     Spacer()
                 }
