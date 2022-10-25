@@ -11,8 +11,7 @@ struct ColorPickerView: View {
     @EnvironmentObject var viewModel: ContentViewModel
     @Binding var isPresent: Bool
     @Binding var selectedIndex: Int
-    @State private var selectedColor: Color = .clear
-    
+
     var body: some View {
         HStack {
             Button {
@@ -103,38 +102,10 @@ struct ColorPickerView: View {
         .cornerRadius(24)
         .shadow(radius: 4)
         .onChange(of: viewModel.dataSource, perform: { _ in
-            if viewModel.dataSource[selectedIndex].color != .clear {
-                selectedColor = viewModel.dataSource[selectedIndex].color
-            }
-            
-            for item in viewModel.dataSource {
-                if item.selected {
-                    if item.color != .clear {
-                        for (colorIndex,colorItem) in viewModel.colorList.enumerated() {
-                            if colorItem.color == item.color {
-                                viewModel.colorList[colorIndex].selected = true
-                            }
-                        }
-                    }
-                }
-            }
+            viewModel.checkSelectedIndex()
         })
         .onAppear() {
-            if viewModel.dataSource[selectedIndex].color != .clear {
-                selectedColor = viewModel.dataSource[selectedIndex].color
-            }
-            
-            for item in viewModel.dataSource {
-                if item.selected {
-                    if item.color != .clear {
-                        for (colorIndex,colorItem) in viewModel.colorList.enumerated() {
-                            if colorItem.color == item.color {
-                                viewModel.colorList[colorIndex].selected = true
-                            }
-                        }
-                    }
-                }
-            }
+            viewModel.checkSelectedIndex()
         }
         .onDisappear(){
             viewModel.resetSelectedItem()

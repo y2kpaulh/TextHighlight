@@ -28,6 +28,20 @@ class ContentViewModel: ObservableObject {
         }
     }
     
+    func checkSelectedIndex() {
+        for item in dataSource {
+            if item.selected {
+                if item.color != .clear {
+                    for (colorIndex,colorItem) in colorList.enumerated() {
+                        if colorItem.color == item.color {
+                            colorList[colorIndex].selected = true
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
     func changeColorList(colorIndex: Int) {
         // 리스트 색상 변경
         for (index, item) in dataSource.enumerated() {
