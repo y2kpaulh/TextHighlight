@@ -14,12 +14,11 @@ struct ColorPickerView: View {
     @State private var selectedColor: Color = .clear
     
     var body: some View {
-        HStack(spacing: 20) {
-            HStack {
-                Button {
-                    print("tap close btn")
-                    isPresent = false
-                } label: {
+        HStack {
+            Button {
+                print("tap close btn")
+                isPresent = false
+            } label: {
 //                    Rectangle()
 //                        .frame(width: 30, height: 30)
 //                        .foregroundColor(.black)
@@ -29,83 +28,120 @@ struct ColorPickerView: View {
 //                                .foregroundColor(.white)
 //                        }
 //                        .shadow(radius: 2)
-                    
-                    Image(systemName: "xmark")
-                        .resizable()
-                        .foregroundColor(.gray)
-                        .frame(width: 15, height: 15)
-                      
-                }
-                .frame(width: 30, height: 30)
                 
-                Spacer()
-                    .frame(width: 20)
+                Image(systemName: "xmark")
+                    .resizable()
+                    .foregroundColor(.gray)
+                    .frame(width: 15, height: 15)
+                  
+            }
+            .frame(width: 30, height: 30)
+
+            Spacer()
+                .frame(width: 20)
+            
+            Button {
+                print("tap copy btn")
                 
-                Button {
-                    print("tap trash btn")
-                    
-                } label: {
-                    Circle()
-                        .frame(width: 30, height: 30)
-                        .foregroundColor(.gray)
-                        .overlay {
-                            Image(systemName: "doc.on.doc")
-                                .foregroundColor(.white)
+            } label: {
+                Circle()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(.gray)
+                    .overlay {
+                        Image(systemName: "doc.on.doc")
+                            .resizable()
+                            .frame(width: 15,height: 15)
+                            .foregroundColor(.white)
+                    }
+                // .shadow(radius: 2)
+            }
+
+            Button {
+                print("tap share btn")
+                
+            } label: {
+                Circle()
+                    .frame(width: 30, height: 30)
+                    .foregroundColor(.gray)
+                    .overlay {
+                        Image(systemName: "square.and.arrow.up")
+                            .resizable()
+                            .frame(width: 14,height: 16)
+                            .foregroundColor(.white)
+                    }
+                // .shadow(radius: 2)
+            }
+            
+            ScrollView(.horizontal) {
+                HStack {
+                    ForEach(Array(viewModel.colorList.enumerated()), id: \.offset) { colorIndex, colorItem in
+                        Button {
+                            print("tap index: \(colorIndex), item: \(colorItem) btn")                            
+                            viewModel.changeColorList(colorIndex: colorIndex)
+                            viewModel.resetSelectedItem()
+                        } label: {
+                            Circle()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(viewModel.colorItems[colorIndex])
                         }
-                    // .shadow(radius: 2)
-                }
-
-                
-                ScrollView(.horizontal) {
-                    HStack {
-                        ForEach(Array(viewModel.colorList.enumerated()), id: \.offset) { colorIndex, colorItem in
-                            Button {
-                                print("tap index: \(colorIndex), item: \(colorItem) btn")
-                                
-                                for (index, item) in viewModel.dataSource.enumerated() {
-                                    if item.selected {
-                                        viewModel.dataSource[index].color = viewModel.colorItems[colorIndex]
-                                        
-                                        if selectedColor == viewModel.colorItems[colorIndex] {
-                                            viewModel.dataSource[index].color = .clear
-                                        }
-
-                                    }
-                                }
-                                
-                                viewModel.resetSelectedItem()
-                            } label: {
-                                Rectangle()
-                                    .frame(width: 30, height: 30)
-                                    .foregroundColor(viewModel.colorItems[colorIndex])
-                                    .cornerRadius(30/2)
-                                    //.shadow(radius: 2)
-                            }
-                            .overlay {
-                                if selectedColor == viewModel.colorItems[colorIndex] {
-                                    Image(systemName: "checkmark")
-                                        .foregroundColor(.white)
-                                }
+                        .overlay {
+                            if colorItem.selected {
+                                Image(systemName: "xmark")
+                                    .resizable()
+                                    .frame(width: 10, height: 10)
+                                    .foregroundColor(.white)
                             }
                         }
                     }
                 }
-                .frame(width: 110)
             }
-            //.frame(width: UIScreen.main.bounds.width - 100)
-            .padding(10)
-            .background(.regularMaterial)
-            .cornerRadius(24)
-            .shadow(radius: 4)
+            .frame(width: 110)
         }
+        //.frame(width: UIScreen.main.bounds.width - 100)
+        .padding(10)
+        .background(.regularMaterial)
+        .cornerRadius(24)
+        .shadow(radius: 4)
+        .onChange(of: viewModel.dataSource, perform: { _ in
+            if viewModel.dataSource[selectedIndex].color != .clear {
+                selectedColor = viewModel.dataSource[selectedIndex].color
+            }
+            
+            for item in viewModel.dataSource {
+                if item.selected {
+                    if item.color != .clear {
+                        for (colorIndex,colorItem) in viewModel.colorList.enumerated() {
+                            if colorItem.color == item.color {
+                                viewModel.colorList[colorIndex].selected = true
+                            }
+                        }
+                    }
+                }
+            }
+        })
         .onAppear() {
             if viewModel.dataSource[selectedIndex].color != .clear {
                 selectedColor = viewModel.dataSource[selectedIndex].color
+            }
+            
+            for item in viewModel.dataSource {
+                if item.selected {
+                    if item.color != .clear {
+                        for (colorIndex,colorItem) in viewModel.colorList.enumerated() {
+                            if colorItem.color == item.color {
+                                viewModel.colorList[colorIndex].selected = true
+                            }
+                        }
+                    }
+                }
             }
         }
         .onDisappear(){
             viewModel.resetSelectedItem()
         }
+//        .onTapGesture {
+//            isPresent = false
+//        }
     }
 }
 
